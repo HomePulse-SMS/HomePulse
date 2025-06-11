@@ -46,3 +46,5 @@ CREATE TABLE society(
     sc_id INT NOT NULL,
     CONSTRAINT FOREIGN KEY (sc_id) REFERENCES subcity (id)
 );
+
+-- USER, Empolyee, Secretory_ADMIN
