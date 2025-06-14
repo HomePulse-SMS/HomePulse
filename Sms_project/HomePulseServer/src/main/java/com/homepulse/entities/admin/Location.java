@@ -1,14 +1,14 @@
-package com.homepulse.entities.Admin;
+package com.homepulse.entities.admin;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
 
 
 @Entity
@@ -28,6 +28,9 @@ public class Location {
 	private String city;
 	@Column(name="district")
 	private String district;
-	
+
+	@JsonManagedReference
+	@OneToMany(mappedBy = "location")
+	private List<Society> societyList;
 
 }
