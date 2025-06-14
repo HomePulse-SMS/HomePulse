@@ -48,3 +48,24 @@ CREATE TABLE society(
 );
 
 -- USER, Empolyee, Secretory_ADMIN
+
+
+
+
+--Changes in Admin Table
+
+TABLE location CREATE (
+id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL,
+country VARCHAR(25), state VARCHAR(50),
+city VARCHAR(50),
+district VARCHAR(50), 
+);
+
+CREATE TABLE society (
+id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL,
+society_name VARCHAR(50) NOT NULL,
+subcity VARCHAR(50) NOT NULL,
+location_id INT NOT NULL,
+CONSTRAINT FOREIGN KEY (location_id) REFERENCES location(id)
+);
+
