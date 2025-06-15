@@ -32,4 +32,17 @@ public class AdminServicesImp implements AdminServices{
     public void addLocation(Location location) {
         locationDao.save(location);
     }
+
+//	@Override
+//	public v findSociety() {
+//		societyDao.findAll();
+//		// TODO Auto-generated method stub
+//		
+//	}
+//
+//	@Override
+//	public void findLocation() {
+//		// TODO Auto-generated method stub
+//		
+//	}
 }
