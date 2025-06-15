@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface SocietyRepository extends JpaRepository<Society, Long> {
+public interface SocietyRepository extends JpaRepository<Society, Integer> {
 
 }
