@@ -9,4 +9,9 @@ public interface AdminServices {
     void addSociety(Society society);
     void addLocation(Location location);
 
+    List<Society> findAllSociety();
+    List<Location> findAllLocation();
+
+    List<Society> findByLocationId_Id(int id);
+
 }

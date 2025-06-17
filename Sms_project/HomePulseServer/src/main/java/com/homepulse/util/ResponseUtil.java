@@ -3,10 +3,12 @@ package com.homepulse.util;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.message.StringFormattedMessage;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @AllArgsConstructor
+@RequiredArgsConstructor
 @Data
 public class ResponseUtil<T> {
     private String status;

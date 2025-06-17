@@ -10,13 +10,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class AdminServicesImp implements AdminServices{
+public class AdminServicesImpl implements AdminServices{
 
     private LocationDao locationDao;
     private SocietyDao societyDao;
 
     @Autowired
-    public AdminServicesImp(LocationDao locationDao, SocietyDao societyDao) {
+    public AdminServicesImpl(LocationDao locationDao, SocietyDao societyDao) {
         this.locationDao = locationDao;
         this.societyDao = societyDao;
     }
@@ -31,5 +31,20 @@ public class AdminServicesImp implements AdminServices{
     @Override
     public void addLocation(Location location) {
         locationDao.save(location);
+    }
+
+    @Override
+    public List<Society> findAllSociety() {
+        return societyDao.findAll();
+    }
+
+    @Override
+    public List<Location> findAllLocation() {
+        return locationDao.findAll();
+    }
+
+    @Override
+    public List<Society> findByLocationId_Id(int id) {
+        return societyDao.findByLocation_Id(id);
     }
 }
