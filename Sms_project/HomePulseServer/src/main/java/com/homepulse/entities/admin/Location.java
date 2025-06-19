@@ -29,7 +29,7 @@ public class Location {
 	@Column(name="district")
 	private String district;
 
-	@JsonManagedReference
+	@JsonIgnore
 	@OneToMany(mappedBy = "location")
 	private List<Society> societyList;
 

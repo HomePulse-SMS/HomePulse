@@ -27,4 +27,22 @@ public class AdminRestController {
         adminServices.addLocation(location);
         return ResponseUtil.apiSuccess("New Location Added");
     }
+
+    @GetMapping("/getAllSociety")
+    public ResponseUtil<?> findAllSociety() {
+        List<Society> list = adminServices.findAllSociety();
+        return ResponseUtil.apiSuccess(list);
+    }
+
+    @GetMapping("/getAllLocation")
+    public ResponseUtil<?> findAllLocation() {
+        List<Location> list = adminServices.findAllLocation();
+        return ResponseUtil.apiSuccess(list);
+    }
+
+    @GetMapping("/location/{id}")
+    public ResponseUtil<?> findByLocationId(@PathVariable("id") int id) {
+        List<Society> list = adminServices.findByLocationId_Id(id);
+        return ResponseUtil.apiSuccess(list);
+    }
 }

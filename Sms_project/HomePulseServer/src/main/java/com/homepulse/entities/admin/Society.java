@@ -1,12 +1,14 @@
 package com.homepulse.entities.admin;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.homepulse.entities.userEmpSecretory.Users;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.antlr.v4.runtime.misc.NotNull;
 
 import java.util.List;
 
@@ -26,6 +28,10 @@ public class Society {
 
 	@ManyToOne
 	@JoinColumn(name = "location_id")
-	@JsonBackReference
+	@JsonIgnoreProperties({"societyList"}) //avoid circular refs
 	private Location location;
+
+	@OneToMany(mappedBy = "societyId")
+	@JsonIgnore
+	private List<Users> usersList;
 }

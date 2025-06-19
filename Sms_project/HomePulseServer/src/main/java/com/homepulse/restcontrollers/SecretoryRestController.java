@@ -1,0 +1,72 @@
+package com.homepulse.restcontrollers;
+
+import com.homepulse.entities.userEmpSecretory.Users;
+import com.homepulse.services.SecretoryServices;
+import com.homepulse.util.ResponseUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RequestMapping("/secretory")
+@RestController
+public class SecretoryRestController {
+
+    @Autowired
+    private SecretoryServices secretoryServices;
+
+    @GetMapping("/getAll")
+    public ResponseUtil<?> getAll() {
+        List<Users> list = secretoryServices.findAll();
+        return ResponseUtil.apiSuccess(list);
+    }
+
+    @GetMapping("/{role}")
+    public ResponseUtil<?> findByRole(@PathVariable("role") String role) {
+        List<Users> list = secretoryServices.findByRole(role);
+        return ResponseUtil.apiSuccess(list);
+    }
+
+    @GetMapping("/notApproved")
+    public ResponseUtil<?> findByApprovalFalse() {
+        List<Users> list = secretoryServices.findByApprovalFalse();
+        return ResponseUtil.apiSuccess(list);
+    }
+
+    @GetMapping("/approved")
+    public ResponseUtil<?> findByApprovalTrue() {
+        List<Users> list = secretoryServices.findByApprovalTrue();
+        return ResponseUtil.apiSuccess(list);
+    }
+
+    @GetMapping("/findByWing/{wing}")
+    public ResponseUtil<?> findByWing(@PathVariable("wing") String wing) {
+        List<Users> list = secretoryServices.findByWing(wing);
+        return ResponseUtil.apiSuccess(list);
+    }
+
+    @PatchMapping("/approve/{id}")
+    public ResponseUtil<?> approveUser(@PathVariable("id") int id) {
+        secretoryServices.approveUser(id);
+        return ResponseUtil.apiSuccess("User is Approved");
+    }
+
+    @PatchMapping("/disapprove/{id}")
+    public ResponseUtil<?> disapproveUser(@PathVariable("id") int id) {
+        secretoryServices.disapproveUser(id);
+        return ResponseUtil.apiSuccess("User is Disapproved");
+    }
+
+    @PatchMapping("/delete/{id}")
+    public ResponseUtil<?> deleteUser(@PathVariable("id") int id) {
+        secretoryServices.deleteUser(id);
+        return ResponseUtil.apiSuccess("User is Deleted");
+    }
+
+    @GetMapping("/society/{id}")
+    public ResponseUtil<?> findBySocietyId(@PathVariable int id) {
+        List<Users> list = secretoryServices.findBySocietyId(id);
+        return ResponseUtil.apiSuccess(list);
+    }
+
+}
