@@ -1,5 +1,6 @@
 package com.homepulse.restcontrollers;
 
+import com.homepulse.entities.VisitorLogs;
 import com.homepulse.entities.userEmpSecretory.Users;
 import com.homepulse.services.SecretoryServices;
 import com.homepulse.util.ResponseUtil;
@@ -68,5 +69,37 @@ public class SecretoryRestController {
         List<Users> list = secretoryServices.findBySocietyId(id);
         return ResponseUtil.apiSuccess(list);
     }
+
+    @GetMapping("/getAllVisitor")
+    public ResponseUtil<?> findAllVisitor() {
+        List<VisitorLogs> list = secretoryServices.findAllVisitor();
+        return ResponseUtil.apiSuccess(list);
+    }
+
+    @GetMapping("/findByType/{type}")
+    public ResponseUtil<?> findByType(@PathVariable("type") String type) {
+        List<VisitorLogs> list = secretoryServices.findByType(type);
+        return ResponseUtil.apiSuccess(list);
+    }
+
+    @GetMapping("/findById/{Id}")
+    public ResponseUtil<?> findById(@PathVariable("Id") int id) {
+        VisitorLogs visitorLogs = secretoryServices.findById(id);
+        return ResponseUtil.apiSuccess(visitorLogs);
+    }
+
+    @GetMapping("/findByUserId/{id}")
+    public  ResponseUtil<?> findByUsersId_Id(@PathVariable("id") int id) {
+        List<VisitorLogs> list = secretoryServices.findByUsersId_Id(id);
+        return ResponseUtil.apiSuccess(list);
+    }
+
+    @GetMapping("/findByGuardId/{id}")
+    public  ResponseUtil<?> findByGuardId_Id(@PathVariable("id") int id) {
+        List<VisitorLogs> list = secretoryServices.findByGuardId_Id(id);
+        return ResponseUtil.apiSuccess(list);
+    }
+
+
 
 }

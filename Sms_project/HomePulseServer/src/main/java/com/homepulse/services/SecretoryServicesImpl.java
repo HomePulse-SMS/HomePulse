@@ -1,20 +1,24 @@
 package com.homepulse.services;
 
+import com.homepulse.daos.guard.GuardDao;
 import com.homepulse.daos.secretory.SecretoryDao;
+import com.homepulse.entities.VisitorLogs;
 import com.homepulse.entities.userEmpSecretory.Users;
 import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SecretoryServicesImpl implements SecretoryServices {
 
     @Autowired
     private SecretoryDao secretoryDao;
+
     @Autowired
-    private ListableBeanFactory listableBeanFactory;
+    private GuardDao guardDao;
 
     @Override
     public List<Users> findAll() {
@@ -69,4 +73,32 @@ public class SecretoryServicesImpl implements SecretoryServices {
     public List<Users> findBySocietyId(int id) {
         return secretoryDao.findBySocietyId_Id(id);
     }
+
+    @Override
+    public List<VisitorLogs> findAllVisitor() {
+        return guardDao.findAll();
+    }
+
+    @Override
+    public VisitorLogs findById(int id) {
+        return guardDao.findById(id)
+                .orElseThrow(() -> new RuntimeException("User Not found"));
+    }
+
+    @Override
+    public List<VisitorLogs> findByType(String type) {
+        return guardDao.findByType(type);
+    }
+
+    @Override
+    public List<VisitorLogs> findByUsersId_Id(int usersIdId) {
+        return guardDao.findByUsersId_Id(usersIdId);
+    }
+
+    @Override
+    public List<VisitorLogs> findByGuardId_Id(int guardIdId) {
+        return guardDao.findByGuardId_Id(guardIdId);
+    }
+
+
 }

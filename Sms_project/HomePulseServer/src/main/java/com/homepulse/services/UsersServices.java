@@ -8,4 +8,6 @@ public interface UsersServices {
 //    void editUsers(Users users, int id);
 
     Users findByEmailAndPassword(String email, String password);
+
+    void markIsVerifiedTrue(int id);
 }

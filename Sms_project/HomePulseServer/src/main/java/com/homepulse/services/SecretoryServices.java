@@ -1,5 +1,6 @@
 package com.homepulse.services;
 
+import com.homepulse.entities.VisitorLogs;
 import com.homepulse.entities.userEmpSecretory.Users;
 
 import java.util.List;
@@ -17,5 +18,14 @@ public interface SecretoryServices {
     void deleteUser(int id);
 
     List<Users> findBySocietyId(int id);
+
+    // Visitors_Logs
+    List<VisitorLogs> findAllVisitor();
+    VisitorLogs findById(int id);
+    List<VisitorLogs> findByType(String type);
+    List<VisitorLogs> findByUsersId_Id(int usersIdId);
+    List<VisitorLogs> findByGuardId_Id(int guardIdId);
+
+
 
 }
