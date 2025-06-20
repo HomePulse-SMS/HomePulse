@@ -1,5 +1,6 @@
 package com.homepulse.services;
 
+import com.homepulse.entities.VisitorLogs;
 import com.homepulse.entities.admin.Location;
 import com.homepulse.entities.admin.Society;
 
@@ -13,5 +14,7 @@ public interface AdminServices {
     List<Location> findAllLocation();
 
     List<Society> findByLocationId_Id(int id);
+
+
 
 }

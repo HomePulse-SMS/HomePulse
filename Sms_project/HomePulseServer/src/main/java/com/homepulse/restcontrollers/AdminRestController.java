@@ -1,8 +1,10 @@
 package com.homepulse.restcontrollers;
 
+import com.homepulse.entities.VisitorLogs;
 import com.homepulse.entities.admin.Location;
 import com.homepulse.entities.admin.Society;
 import com.homepulse.services.AdminServices;
+import com.homepulse.services.GuardServices;
 import com.homepulse.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

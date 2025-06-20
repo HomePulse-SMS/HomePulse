@@ -1,5 +1,6 @@
 package com.homepulse.daos.secretory;
 
+import com.homepulse.entities.VisitorLogs;
 import com.homepulse.entities.admin.Society;
 import com.homepulse.entities.userEmpSecretory.Users;
 import jakarta.transaction.Transactional;

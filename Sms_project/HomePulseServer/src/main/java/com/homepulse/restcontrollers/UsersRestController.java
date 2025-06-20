@@ -42,4 +42,10 @@ public class UsersRestController {
         return ResponseUtil.apiError("user Not Found");
     }
 
+    @PatchMapping("/VerifyVisitor/{id}")
+    public ResponseUtil<?> markIsVerifiedTrue(@PathVariable("id") int id) {
+        usersServices.markIsVerifiedTrue(id);
+        return ResponseUtil.apiSuccess("Marked Verified");
+    }
+
 }
