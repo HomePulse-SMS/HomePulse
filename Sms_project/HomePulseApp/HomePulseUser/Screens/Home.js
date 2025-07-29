@@ -6,102 +6,145 @@ import {
   TouchableOpacity,
   StyleSheet,
   KeyboardAvoidingView,
-  Platform
+  Platform, StatusBar
 } from 'react-native';
-import LottieView from 'lottie-react-native';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const HomeScreen = ({ navigation }) => {
-  const [pincode, setPincode] = useState('');
+  const [email, setEmail] = useState("manoj.mehta@example.com");
+  const [password, setPassword] = useState("pass123");
 
-  const handleNext = () => {
-    if (pincode.length === 6) {
-      navigation.navigate('SelectCity', { pincode });
-    } else {
-      alert('Enter a valid 6-digit pincode');
+  const saveUserData = async (userData) => {
+    try {
+      await AsyncStorage.setItem('isRegistered', 'true');
+      await AsyncStorage.setItem('userData', JSON.stringify(userData)); // optional
+    } catch (e) {
+      console.error('Error saving registration:', e);
     }
   };
 
-  return (
-      <KeyboardAvoidingView
-          style={styles.container}
-          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      >
+  const handleSignIn = async() => {
+      await fetch("http://localhost:8080/users/login", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password
+        })
+      }).then(async (res) => {
+        const responseData = await res.json();
 
-        <LottieView
-            source={{ uri: 'https://lottie.host/145ceeb5-15d8-42a9-91fc-89d278771897/kDj5EY0nvT.lottie' }}
-            autoPlay
-            loop
-            style={{ width: 200, height: 200 }}
+        if (responseData.status === "Success") {
+          console.log(responseData.data);
+          let city = responseData.data.societyId.location.city
+          let pincode = 556;
+          let apartment = responseData.data.societyId.sname
+          let flatNumber = responseData.data.room_no
+
+          saveUserData({pincode, city, apartment, flatNumber}).then(r =>navigation.navigate("Dashboard"));
+        } else {
+          console.log("User not found");
+        }
+      })
+          .catch((error) => console.error("Error:", ));
+
+    };
+
+  return (
+      <View style={styles.container}>
+        <StatusBar barStyle="light-content" backgroundColor="#2c3e50" />
+        <Text style={styles.title}>Welcome To HomePulse</Text>
+
+        <TextInput
+            style={styles.input}
+            placeholder="Email"
+            placeholderTextColor="#ccc"
+            keyboardType="email-address"
+            value={email}
+            onChangeText={setEmail}
+            autoCapitalize="none"
         />
-          <Text style={styles.title}>Enter Your Pincode</Text>
-          <TextInput
-              style={styles.input}
-              placeholder="6-digit Pincode"
-              keyboardType="numeric"
-              value={pincode}
-              onChangeText={setPincode}
-              maxLength={6}
-              placeholderTextColor="#999"
-          />
-          <TouchableOpacity style={styles.button} onPress={handleNext}>
-            <Text style={styles.buttonText}>Next</Text>
-          </TouchableOpacity>
-      </KeyboardAvoidingView>
+
+        <TextInput
+            style={styles.input}
+            placeholder="Password"
+            placeholderTextColor="#ccc"
+            secureTextEntry
+            value={password}
+            onChangeText={setPassword}
+        />
+
+        <TouchableOpacity style={styles.button} onPress={handleSignIn}>
+          <Text style={styles.buttonText}>Sign In</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+            onPress={() => navigation.navigate('SelectState')}
+            style={styles.linkContainer}
+        >
+          <Text style={styles.linkText}>Don't have an account? <Text style={styles.linkHighlight}>Sign Up</Text></Text>
+        </TouchableOpacity>
+      </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#EAF0F6',
+    backgroundColor: '#34495e',
     justifyContent: 'center',
-    alignItems: 'center',
-  },
-  card: {
-    width: '85%',
-    backgroundColor: '#fff',
-    padding: 30,
-    borderRadius: 20,
-    elevation: 5,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 4 },
-    shadowRadius: 6,
-    alignItems: 'center',
+    paddingHorizontal: 30,
   },
   title: {
-    fontSize: 24,
-    fontWeight: '600',
-    marginBottom: 25,
-    color: '#333',
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: '#ecf0f1',
+    marginBottom: 40,
+    textAlign: 'center',
   },
   input: {
-    width: '90%',
-    borderColor: '#ccc',
-    borderWidth: 1,
-    borderRadius: 12,
-    padding: 12,
+    height: 50,
+    backgroundColor: '#2c3e50',
+    borderRadius: 10,
+    paddingHorizontal: 15,
     fontSize: 16,
-    marginBottom: 25,
-    backgroundColor: '#F9F9F9',
+    color: '#fff',
+    marginBottom: 20,
+    borderWidth: 1,
+    borderColor: '#7f8c8d',
   },
   button: {
-    backgroundColor: '#007AFF',
-    paddingVertical: 12,
-    paddingHorizontal: 40,
-    borderRadius: 25,
-    width: '50%',
+    backgroundColor: '#e67e22',
+    paddingVertical: 15,
+    borderRadius: 10,
     alignItems: 'center',
-    shadowColor: '#007AFF',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 6,
+    marginTop: 10,
+    shadowColor: '#000',
+    shadowOpacity: 0.2,
+    shadowOffset: { width: 0, height: 3 },
+    shadowRadius: 4,
+    elevation: 5,
   },
   buttonText: {
     color: '#fff',
     fontSize: 18,
     fontWeight: '600',
   },
+  linkContainer: {
+    marginTop: 20,
+    alignItems: 'center',
+  },
+  linkText: {
+    color: '#bdc3c7',
+    fontSize: 14,
+  },
+  linkHighlight: {
+    color: '#e67e22',
+    fontWeight: 'bold',
+  },
 });
 
 export default HomeScreen;
+
