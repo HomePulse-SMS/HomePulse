@@ -2,6 +2,7 @@ package com.homepulse.restcontrollers;
 
 import com.homepulse.entities.VisitorLogs;
 import com.homepulse.entities.admin.Location;
+import com.homepulse.entities.admin.SecretoryRegister;
 import com.homepulse.entities.admin.Society;
 import com.homepulse.services.AdminServices;
 import com.homepulse.services.GuardServices;
@@ -11,6 +12,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = {
+        "http://172.18.4.209:8081",
+        "http://localhost:8081"
+})
 @RequestMapping("/admin")
 @RestController
 public class AdminRestController {
@@ -21,7 +26,7 @@ public class AdminRestController {
     @PostMapping("/addSociety")
     public ResponseUtil<?> addSociety(@RequestBody Society society) {
         adminServices.addSociety(society);
-        return ResponseUtil.apiSuccess("New Society Added");
+        return ResponseUtil.apiSuccess(society);
     }
 
     @PostMapping("/addLocation")
@@ -46,5 +51,11 @@ public class AdminRestController {
     public ResponseUtil<?> findByLocationId(@PathVariable("id") int id) {
         List<Society> list = adminServices.findByLocationId_Id(id);
         return ResponseUtil.apiSuccess(list);
+    }
+
+    @PostMapping("/addSecretory")
+    public ResponseUtil<?> addSecretory(@RequestBody SecretoryRegister secretoryRegister) {
+        adminServices.addSecretory(secretoryRegister);
+        return ResponseUtil.apiSuccess("Secretory Added");
     }
 }

@@ -14,8 +14,8 @@ public class UsersRestController {
     @Autowired
     private UsersServices usersServices;
 
-    @PutMapping
-    public ResponseUtil<?> addUser(@RequestBody Users users) {
+    @PostMapping("/register")
+    public ResponseUtil<?> register(@RequestBody Users users) {
         usersServices.addUser(users);
         return ResponseUtil.apiSuccess("New User is Added");
     }
@@ -26,14 +26,14 @@ public class UsersRestController {
 //        return  ResponseUtil.apiSuccess("User Data is updated");
 //    }
 
-    @PostMapping("/login")
-    public ResponseUtil<?> findUser(@RequestBody LoginRequest loginRequest) {
+    @GetMapping("/login")
+    public ResponseUtil<?> login(@RequestBody LoginRequest loginRequest) {
 
         Users users;
         try {
             users = usersServices.findByEmailAndPassword(loginRequest.getEmail(), loginRequest.getPassword());
         } catch (Exception e) {
-            return ResponseUtil.apiError("User Not Found");
+            return ResponseUtil.apiError(e.getMessage());
         }
 
         if (users != null)
