@@ -16,7 +16,6 @@ public class SecretoryServicesImpl implements SecretoryServices {
 
     @Autowired
     private SecretoryDao secretoryDao;
-
     @Autowired
     private GuardDao guardDao;
 

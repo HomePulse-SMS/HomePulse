@@ -22,7 +22,7 @@ public class SecretoryRestController {
         return ResponseUtil.apiSuccess(list);
     }
 
-    @GetMapping("/{role}")
+    @GetMapping("/findByRole/{role}")
     public ResponseUtil<?> findByRole(@PathVariable("role") String role) {
         List<Users> list = secretoryServices.findByRole(role);
         return ResponseUtil.apiSuccess(list);
@@ -64,7 +64,7 @@ public class SecretoryRestController {
         return ResponseUtil.apiSuccess("User is Deleted");
     }
 
-    @GetMapping("/society/{id}")
+    @GetMapping("/findBySocietyId/{id}")
     public ResponseUtil<?> findBySocietyId(@PathVariable int id) {
         List<Users> list = secretoryServices.findBySocietyId(id);
         return ResponseUtil.apiSuccess(list);
