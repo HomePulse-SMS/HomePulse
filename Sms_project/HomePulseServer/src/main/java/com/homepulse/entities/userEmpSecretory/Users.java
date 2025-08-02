@@ -1,12 +1,5 @@
 package com.homepulse.entities.userEmpSecretory;
 
-import java.util.Collection;
-import java.util.List;
-
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.UserDetails;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.homepulse.entities.admin.Society;
@@ -20,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class Users implements UserDetails{
+public class Users {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private int id;
@@ -50,17 +43,4 @@ public class Users implements UserDetails{
     private String room_no;
     @Column(name = "wing")
     private String wing;
-    
-    
-	public Collection<GrantedAuthority> getAuthorities() {
-		List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(this.role);
-		return authorities;
-	}
-
-
-	@Override
-	public String getUsername() {
-		return this.email;
-
-	}
 }

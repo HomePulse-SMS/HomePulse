@@ -16,7 +16,7 @@ public class UsersRestController {
 
     @PostMapping("/register")
     public ResponseUtil<?> register(@RequestBody Users users) {
-        usersServices.registerUser(users);
+        usersServices.addUser(users);
         return ResponseUtil.apiSuccess("New User is Added");
     }
 

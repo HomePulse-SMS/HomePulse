@@ -4,7 +4,7 @@ import com.homepulse.entities.userEmpSecretory.Users;
 
 public interface UsersServices {
 
-    Users registerUser(Users users);
+    void addUser(Users users);
 //    void editUsers(Users users, int id);
 
     Users findByEmailAndPassword(String email, String password);
