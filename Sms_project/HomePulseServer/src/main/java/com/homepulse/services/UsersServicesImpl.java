@@ -4,20 +4,41 @@ import com.homepulse.daos.guard.GuardDao;
 import com.homepulse.daos.users.UsersDao;
 import com.homepulse.entities.userEmpSecretory.Users;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UsersServicesImpl implements UsersServices{
+public class UsersServicesImpl implements UsersServices, UserDetailsService{
 
     @Autowired
     private UsersDao usersDao;
 
     @Autowired
     private GuardDao guardDao;
+    
+    
+    @Autowired
+    @Lazy
+    private PasswordEncoder pwen;
 
-    @Override
-    public void addUser(Users users) {
-        usersDao.save(users);
+//    @Override
+//    public void addUser(Users users) {
+//        usersDao.save(users);
+//    }
+    
+    public Users registerUser(Users user) {
+        // Encrypt the password
+        user.setPassword(pwen.encode(user.getPassword()));
+
+        // Optional: Normalize role to uppercase (e.g., "ADMIN")
+        user.setRole(user.getRole().toUpperCase());
+
+        // Save the user
+        return usersDao.save(user);
     }
 
 //    @Override
@@ -38,5 +59,13 @@ public class UsersServicesImpl implements UsersServices{
             throw new RuntimeException("Visitor Not Found");
         }
     }
+
+	@Override
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		Users dbUser = usersDao.findByEmail(email);
+        if (dbUser == null)
+            throw new UsernameNotFoundException("No user exists!");
+        return dbUser;
+	}
 
 }
