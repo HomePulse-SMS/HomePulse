@@ -37,4 +37,6 @@ public interface SecretoryDao extends JpaRepository<Users, Integer>{
 
 //    @Query("SELECT(u.fname, u.lname) FROM Users u WHERE u.societyId = :id")
     List<Users> findBySocietyId_Id(@Param("id") int societyId);
+    
+    
 }
