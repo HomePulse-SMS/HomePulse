@@ -28,6 +28,8 @@ public class AdminRestController {
         adminServices.addSociety(society);
         return ResponseUtil.apiSuccess(society);
     }
+    
+   
 
     @PostMapping("/addLocation")
     public ResponseUtil<?> addLocation(@RequestBody Location location) {

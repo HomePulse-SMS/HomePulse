@@ -1,10 +1,13 @@
 package com.homepulse.restcontrollers;
 
 import com.homepulse.entities.VisitorLogs;
+import com.homepulse.entities.userEmpSecretory.Notice;
 import com.homepulse.entities.userEmpSecretory.Users;
 import com.homepulse.services.SecretoryServices;
 import com.homepulse.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +18,8 @@ public class SecretoryRestController {
 
     @Autowired
     private SecretoryServices secretoryServices;
+    
+  
 
     @GetMapping("/getAll")
     public ResponseUtil<?> getAll() {
@@ -99,6 +104,42 @@ public class SecretoryRestController {
         List<VisitorLogs> list = secretoryServices.findByGuardId_Id(id);
         return ResponseUtil.apiSuccess(list);
     }
+   
+    
+    //Notices
+    // SECRETARY -- ADD NOTICES
+    @PostMapping("/addNotice")
+    public ResponseUtil<?> addNotice(@RequestBody Notice notice) {
+        Notice saved = secretoryServices.addNotice(notice);
+        return ResponseUtil.apiSuccess(saved);
+    }
+    
+    // USER: View All Notices
+    @GetMapping("/user/notices")
+    public ResponseUtil<?> getAllNotices() {
+        List<Notice> list = secretoryServices.getAllNotices();
+        return ResponseUtil.apiSuccess(list);
+    }
+    
+    
+    // DELETE NOTICE BY ID --- SECRETARY
+    @DeleteMapping("/noticeDel/{id}")
+    public ResponseUtil<?> deleteNotice(@PathVariable int id) {
+    	secretoryServices.deleteNotice(id);
+        return ResponseUtil.apiSuccess("Notice deleted successfully");
+    }
+    
+    // SECRETARY -- UPDATE NOTICES
+    @PutMapping("/updateNotice/{id}")
+    public ResponseUtil<?> updateNotice(@PathVariable int id, @RequestBody Notice updatedNotice) {
+        secretoryServices.updateNotice(id, updatedNotice);
+        return ResponseUtil.apiSuccess("Notice updated successfully");
+    }
+
+    
+
+    
+    
 
 
 

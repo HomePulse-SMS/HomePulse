@@ -1,13 +1,19 @@
 package com.homepulse.services;
 
+import com.homepulse.daos.admin.SocietyDao;
 import com.homepulse.daos.guard.GuardDao;
+import com.homepulse.daos.secretory.NoticeDao;
 import com.homepulse.daos.secretory.SecretoryDao;
+import com.homepulse.daos.users.UsersDao;
 import com.homepulse.entities.VisitorLogs;
+import com.homepulse.entities.admin.Society;
+import com.homepulse.entities.userEmpSecretory.Notice;
 import com.homepulse.entities.userEmpSecretory.Users;
 import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,8 +22,18 @@ public class SecretoryServicesImpl implements SecretoryServices {
 
     @Autowired
     private SecretoryDao secretoryDao;
+    
     @Autowired
     private GuardDao guardDao;
+    
+    @Autowired
+    private NoticeDao noticeDao;
+    
+    @Autowired
+    private UsersDao usersDao;
+    
+    @Autowired 
+    private SocietyDao societyDao;
 
     @Override
     public List<Users> findAll() {
@@ -98,6 +114,58 @@ public class SecretoryServicesImpl implements SecretoryServices {
     public List<VisitorLogs> findByGuardId_Id(int guardIdId) {
         return guardDao.findByGuardId_Id(guardIdId);
     }
+
+    
+    // ADD NOTICES -- SECRETARY
+	@Override
+	public Notice addNotice(Notice notice) {
+	//	Ensure society exists
+		if (notice.getSociety() != null && notice.getSociety().getId() != 0) {
+            Society society = societyDao.findById(notice.getSociety().getId()).orElse(null);
+            notice.setSociety(society);
+	}
+		
+		// Ensure postedBy user exists
+        if (notice.getPostedBy() != null && notice.getPostedBy().getId() != 0) {
+            Users user = usersDao.findById(notice.getPostedBy().getId()).orElse(null);
+            notice.setPostedBy(user);
+        }
+
+        return noticeDao.save(notice);
+	}
+
+	
+	//GET ALL NOTICES --- USRES
+	@Override
+	public List<Notice> getAllNotices() {
+        return noticeDao.findAll();
+
+	}
+
+	
+	// DELETE NOTICE --- SECRETARY
+	@Override
+	public void deleteNotice(int id) {
+        noticeDao.deleteById(id);
+
+		
+	}
+
+	
+	// UPDATE NOTICE --- SECRETARY
+	@Override
+	public void updateNotice(int id, Notice updatedNotice) {
+		Notice existingNotice = noticeDao.findById(id)
+		        .orElseThrow(() -> new RuntimeException("Notice not found with id: " + id));
+
+		    existingNotice.setTitle(updatedNotice.getTitle());
+		    existingNotice.setContent(updatedNotice.getContent());
+		    existingNotice.setCreatedAt(LocalDateTime.now());
+
+		    noticeDao.save(existingNotice);
+
+		
+	}
 
 
 }

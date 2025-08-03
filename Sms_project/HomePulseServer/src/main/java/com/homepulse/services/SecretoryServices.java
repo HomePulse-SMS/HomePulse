@@ -1,6 +1,7 @@
 package com.homepulse.services;
 
 import com.homepulse.entities.VisitorLogs;
+import com.homepulse.entities.userEmpSecretory.Notice;
 import com.homepulse.entities.userEmpSecretory.Users;
 
 import java.util.List;
@@ -25,6 +26,20 @@ public interface SecretoryServices {
     List<VisitorLogs> findByType(String type);
     List<VisitorLogs> findByUsersId_Id(int usersIdId);
     List<VisitorLogs> findByGuardId_Id(int guardIdId);
+    
+    // notices -- secretary
+    Notice addNotice(Notice notice);
+    
+    List<Notice> getAllNotices();
+    
+    void deleteNotice(int id);
+    
+    void updateNotice(int id, Notice updatedNotice);       
+
+    
+    
+
+
 
 
 

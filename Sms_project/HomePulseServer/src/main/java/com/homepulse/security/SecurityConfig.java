@@ -50,19 +50,15 @@ public class SecurityConfig {
 						.requestMatchers("/admin/**").hasAuthority("ADMIN")
 						
 						.requestMatchers("/secretary/**").hasAuthority("SECRETARY")
+		                .requestMatchers("/user/**").hasAnyAuthority("USER", "SECRETARY")
+
 						    
 
 						
 			            .requestMatchers("/societies/**").hasAuthority("ADMIN")
-		                .requestMatchers("/user/**").hasAnyAuthority("USER", "SECRETARY")
 
 
-
-
-
-						.requestMatchers("/users/register").permitAll()
-
-						.anyRequest().authenticated())
+                       	.anyRequest().authenticated())
 				.httpBasic(Customizer.withDefaults())
 				.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
