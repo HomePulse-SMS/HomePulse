@@ -26,11 +26,16 @@ public class Society {
 	@Column(name="subcity")
 	private String subcity;
 
-	@ManyToOne
+//	@ManyToOne
+//	@JoinColumn(name = "location_id")
+//	@JsonIgnoreProperties({"societyList"}) //avoid circular refs
+//	private Location location;
+
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "location_id")
-	@JsonIgnoreProperties({"societyList"}) //avoid circular refs
 	private Location location;
 
+	
 	@OneToMany(mappedBy = "societyId")
 	@JsonIgnore
 	private List<Users> usersList;

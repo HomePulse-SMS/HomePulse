@@ -30,10 +30,26 @@ public class AdminServicesImpl implements AdminServices{
     }
 
     // add new Society
+//    @Override
+//    public void addSociety(Society society) {
+//        societyDao.save(society);
+//    }
+    
     @Override
     public void addSociety(Society society) {
+        int locationId = society.getLocation().getId();
+
+        // 1. Location fetch from DB
+        Location location = locationDao.findById(locationId)
+                .orElseThrow(() -> new RuntimeException("Location with ID " + locationId + " not found"));
+
+        // 2. Location set
+        society.setLocation(location);
+
+        // 3. Save society
         societyDao.save(society);
     }
+
 
     // add new Location
     @Override
