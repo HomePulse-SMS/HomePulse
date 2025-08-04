@@ -1,11 +1,9 @@
 package com.homepulse.restcontrollers;
 
-import com.homepulse.entities.VisitorLogs;
 import com.homepulse.entities.admin.Location;
-import com.homepulse.entities.admin.SecretoryRegister;
 import com.homepulse.entities.admin.Society;
+import com.homepulse.entities.userEmpSecretory.Users;
 import com.homepulse.services.AdminServices;
-import com.homepulse.services.GuardServices;
 import com.homepulse.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -56,8 +54,8 @@ public class AdminRestController {
     }
 
     @PostMapping("/addSecretory")
-    public ResponseUtil<?> addSecretory(@RequestBody SecretoryRegister secretoryRegister) {
-        adminServices.addSecretory(secretoryRegister);
+    public ResponseUtil<?> addSecretory(@RequestBody Users newSecretory) {
+        adminServices.addSecretory(newSecretory);
         return ResponseUtil.apiSuccess("Secretory Added");
     }
 }

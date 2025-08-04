@@ -3,6 +3,7 @@ package com.homepulse.restcontrollers;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.homepulse.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -33,14 +34,14 @@ public class CommonLoginController {
 	
 	// Login
     @PostMapping("/authenticate")
-	public ResponseEntity<?> authenticate(@RequestBody Credentials cr) {
+	public ResponseUtil<?> authenticate(@RequestBody Credentials cr) {
 	    Authentication auth = new UsernamePasswordAuthenticationToken(cr.getEmail(), cr.getPassword());
 	    auth = authManager.authenticate(auth);
 	    String token = jwtUtil.createToken(auth);
 
 	    Map<String, String> response = new HashMap<>();
 	    response.put("jwttoken", token);
-	    return ResponseEntity.ok(response);
+	    return ResponseUtil.apiSuccess(response);
 	}
 
 }

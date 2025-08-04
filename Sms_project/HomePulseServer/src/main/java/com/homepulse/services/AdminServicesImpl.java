@@ -5,10 +5,10 @@ import com.homepulse.daos.admin.SecretoryRegisterDao;
 import com.homepulse.daos.admin.SocietyDao;
 import com.homepulse.daos.guard.GuardDao;
 import com.homepulse.entities.admin.Location;
-import com.homepulse.entities.admin.SecretoryRegister;
 import com.homepulse.entities.admin.Society;
 import com.homepulse.entities.userEmpSecretory.Users;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +20,9 @@ public class AdminServicesImpl implements AdminServices{
     private SocietyDao societyDao;
     private GuardDao guardDao;
     private SecretoryRegisterDao secretoryRegisterDao;
+
+    @Autowired
+    private PasswordEncoder passen;
 
     @Autowired
     public AdminServicesImpl(LocationDao locationDao, SocietyDao societyDao, GuardDao guardDao, SecretoryRegisterDao secretoryRegisterDao) {
@@ -73,8 +76,13 @@ public class AdminServicesImpl implements AdminServices{
     }
 
     @Override
-    public void addSecretory(SecretoryRegister secretoryRegister) {
-        secretoryRegisterDao.save(secretoryRegister);
+    public Users addSecretory(Users newSecretory) {
+        newSecretory.setPassword(passen.encode(newSecretory.getPassword()));
+        newSecretory.setRole("SECRETARY");
+        newSecretory.setFlag(false);
+        newSecretory.setApproval(true);
+
+        return secretoryRegisterDao.save(newSecretory);
     }
 
 }
