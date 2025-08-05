@@ -1,6 +1,5 @@
 package com.homepulse.restcontrollers;
 
-import com.homepulse.entities.userEmpSecretory.LoginRequest;
 import com.homepulse.entities.userEmpSecretory.Users;
 import com.homepulse.services.UsersServices;
 import com.homepulse.util.ResponseUtil;
@@ -26,21 +25,21 @@ public class UsersRestController {
 //        return  ResponseUtil.apiSuccess("User Data is updated");
 //    }
 
-    @GetMapping("/login")
-    public ResponseUtil<?> login(@RequestBody LoginRequest loginRequest) {
-
-        Users users;
-        try {
-            users = usersServices.findByEmailAndPassword(loginRequest.getEmail(), loginRequest.getPassword());
-        } catch (Exception e) {
-            return ResponseUtil.apiError(e.getMessage());
-        }
-
-        if (users != null)
-            return ResponseUtil.apiSuccess(users);
-
-        return ResponseUtil.apiError("user Not Found");
-    }
+//    @GetMapping("/login")
+//    public ResponseUtil<?> login(@RequestBody LoginRequest loginRequest) {
+//
+//        Users users;
+//        try {
+//            users = usersServices.findByEmailAndPassword(loginRequest.getEmail(), loginRequest.getPassword());
+//        } catch (Exception e) {
+//            return ResponseUtil.apiError(e.getMessage());
+//        }
+//
+//        if (users != null)
+//            return ResponseUtil.apiSuccess(users);
+//
+//        return ResponseUtil.apiError("user Not Found");
+//    }
 
     @PatchMapping("/VerifyVisitor/{id}")
     public ResponseUtil<?> markIsVerifiedTrue(@PathVariable("id") int id) {
