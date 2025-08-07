@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {Alert, Platform, ScrollView, Text, TextInput, TouchableOpacity, View} from "react-native";
 import * as ImagePicker from 'expo-image-picker';
 
-
+/*New one updated*/
 const Page2=(props)=>{
 
     const [societyName, setSocietyName] = useState('');
