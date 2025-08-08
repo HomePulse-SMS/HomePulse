@@ -25,6 +25,11 @@ public interface SecretoryDao extends JpaRepository<Users, Integer>{
     @Query("UPDATE Users u SET u.approval = true WHERE u.id = :id")
     int approveUserById(@Param("id") int id);
 
+    @Modifying
+    @Transactional
+    @Query("UPDATE Users u SET u.fname = :fname, u.lname = :lname, u.contact = :contact WHERE u.id = :id ")
+    int updateProfile(@Param("id") int id, @Param("fname") String fname, @Param("lname") String lname, @Param("contact") String contact);
+
     @Transactional
     @Modifying
     @Query("UPDATE Users u SET u.approval = false WHERE u.id = :id")
