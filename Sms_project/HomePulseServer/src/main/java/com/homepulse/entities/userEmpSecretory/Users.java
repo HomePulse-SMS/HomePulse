@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.homepulse.entities.admin.Society;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -50,6 +51,9 @@ public class Users implements UserDetails{
     private String room_no;
     @Column(name = "wing")
     private String wing;
+    
+
+    
     
     
 	public Collection<GrantedAuthority> getAuthorities() {

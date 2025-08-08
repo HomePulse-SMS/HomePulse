@@ -51,6 +51,8 @@ public class SecurityConfig {
 						.requestMatchers("/admin/**").permitAll() // temporory
 						.requestMatchers("/secretary/**").hasAuthority("SECRETARY")
 		                .requestMatchers("/user/**").hasAnyAuthority("USER", "SECRETARY")
+		                .requestMatchers("/secretory").permitAll()
+
 
 						    
 

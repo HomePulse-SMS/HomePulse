@@ -1,8 +1,15 @@
 package com.homepulse.services;
 
 import com.homepulse.daos.guard.GuardDao;
+import com.homepulse.daos.users.ComplaintsDao;
 import com.homepulse.daos.users.UsersDao;
+import com.homepulse.entities.userEmpSecretory.Complaints;
 import com.homepulse.entities.userEmpSecretory.Users;
+
+import jakarta.persistence.EntityNotFoundException;
+
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,6 +27,9 @@ public class UsersServicesImpl implements UsersServices, UserDetailsService{
     @Autowired
     private GuardDao guardDao;
     
+    @Autowired
+    private ComplaintsDao complaintsDao;
+  
     
     @Autowired
     @Lazy
@@ -67,5 +77,24 @@ public class UsersServicesImpl implements UsersServices, UserDetailsService{
             throw new UsernameNotFoundException("No user exists!");
         return dbUser;
 	}
+
+	@Override
+	public Complaints raiseComplaint(int userId, String description) {
+		 Users user = usersDao.findById(userId)
+	                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+	        Complaints complaint = new Complaints();
+	        complaint.setUser(user);
+	        complaint.setDescription(description);
+	        complaint.setStatus("Pending");
+
+	        return complaintsDao.save(complaint);
+	}
+
+	
+
+	
+	
+	
 
 }
