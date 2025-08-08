@@ -7,12 +7,26 @@ const Spinner = () => (
         <span className="visually-hidden">Loading...</span>
     </div>
 );
+// const decodeJwtManually = (token) => {
+//     try {
+//         const base64Url = token.split('.')[1];
+//         const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+//         const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+//             return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+//         }).join(''));
+//
+//         return JSON.parse(jsonPayload);
+//     } catch (e) {
+//         console.error("Failed to decode JWT:", e);
+//         return null;
+//     }
+// };
 
 // The Login Screen component
 const LoginScreen = ({ onLoginSuccess }) => {
     // State for form inputs, loading status, and error messages
-    const [email, setEmail] = useState("Rushikesh34@example.com");
-    const [password, setPassword] = useState("Secure123");
+    const [email, setEmail] = useState("sanjay.vaidya3@secretory");
+    const [password, setPassword] = useState("sanjay1234");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
@@ -32,13 +46,23 @@ const LoginScreen = ({ onLoginSuccess }) => {
         try {
             const API_URL = "http://localhost:8080/authenticate";
             const response = await axios.post(API_URL, { email, password });
+
             const token = response.data?.data?.jwttoken;
+            const user = response.data?.data?.user
 
             if (token) {
-                console.log("Login successful, token:", token);
+                // console.log("Login successful, token:", token);
                 localStorage.setItem('jwtToken', token);
-                // --- CHANGE: Call the navigation function on success ---
-                onLoginSuccess();
+                // const decodedToken = decodeJwtManually(token);
+                // console.log("Decoded JWT Payload:", decodedToken);
+                // const userId = decodedToken ? (decodedToken.id || decodedToken.sub) : null;
+
+                // if (userId) {
+                //     onLoginSuccess(userId);
+                // } else {
+                //     setError("Could not retrieve user ID from token. Check the console for the decoded payload.");
+                // }
+                onLoginSuccess(user);
             } else {
                 setError("Login failed: Invalid response from server.");
             }
