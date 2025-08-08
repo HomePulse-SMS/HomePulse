@@ -21,7 +21,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SecretoryServicesImpl implements SecretoryServices {
@@ -43,6 +42,12 @@ public class SecretoryServicesImpl implements SecretoryServices {
     
     @Autowired 
     private SocietyDao societyDao;
+
+    @Override
+    public int updateUserProfile(int id, String fname, String lname, String contact) {
+        int rowsAffected = secretoryDao.updateProfile(id, fname, lname, contact);
+        return rowsAffected;
+    }
 
     @Override
     public List<Users> findAll() {

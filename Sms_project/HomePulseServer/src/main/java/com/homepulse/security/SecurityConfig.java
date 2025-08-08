@@ -49,7 +49,9 @@ public class SecurityConfig {
 						.requestMatchers("/users/register").permitAll()
 //						.requestMatchers("/admin/**").hasAuthority("ADMIN") // change this
 						.requestMatchers("/admin/**").permitAll() // temporory
-						.requestMatchers("/secretary/**").hasAuthority("SECRETARY")
+
+                               
+                               .requestMatchers("/secretary/**").hasAuthority("SECRETARY")
 		                .requestMatchers("/user/**").hasAnyAuthority("USER", "SECRETARY")
 		                .requestMatchers("/secretory").permitAll()
 
@@ -58,6 +60,11 @@ public class SecurityConfig {
 
 						
 			            .requestMatchers("/societies/**").hasAuthority("ADMIN")
+
+						.requestMatchers("/secretary/**").permitAll() //change
+		                .requestMatchers("/user/**").permitAll()
+			            .requestMatchers("/societies/**").permitAll()
+						.requestMatchers("/guard/**").permitAll()
 
 
                        	.anyRequest().authenticated())
@@ -71,7 +78,8 @@ public class SecurityConfig {
 	public CorsConfigurationSource corsConfigurationSource() {
 	    CorsConfiguration config = new CorsConfiguration();
 	    config.setAllowCredentials(true);
-	    config.addAllowedOrigin("http://localhost:8081"); // React Native dev server
+	    config.addAllowedOrigin("http://localhost:8081");
+		config.addAllowedOrigin("http://localhost:5173");// React Native dev server
 	    config.addAllowedHeader("*");
 	    config.addAllowedMethod("*");
 

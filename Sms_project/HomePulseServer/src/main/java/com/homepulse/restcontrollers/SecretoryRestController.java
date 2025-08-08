@@ -4,12 +4,11 @@ import com.homepulse.entities.VisitorLogs;
 import com.homepulse.entities.userEmpSecretory.Complaints;
 import com.homepulse.entities.userEmpSecretory.Notice;
 import com.homepulse.entities.userEmpSecretory.Users;
+import com.homepulse.models.UpdateSecretoryProfileDTO;
 import com.homepulse.services.SecretoryServices;
 import com.homepulse.services.UsersServices;
 import com.homepulse.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,11 +20,24 @@ public class SecretoryRestController {
 
     @Autowired
     private SecretoryServices secretoryServices;
-    
-    @Autowired
+  
+   @Autowired
     private UsersServices usersServices;
     
+
   
+    @PutMapping("/updateProfile/{id}")
+        public ResponseUtil<String> updateProfile(@PathVariable int id, @RequestBody UpdateSecretoryProfileDTO updateSecretoryProfileDTO) {
+        String fname = updateSecretoryProfileDTO.getFname();
+        String lname = updateSecretoryProfileDTO.getLname();
+        String contact = updateSecretoryProfileDTO.getContact();
+        int rowAffected = secretoryServices.updateUserProfile(id,fname,lname,contact);
+
+        if (rowAffected > 1) {
+            return ResponseUtil.apiError("Not Update");
+        }
+        return ResponseUtil.apiSuccess("Updated Successfully");
+    }
 
     @GetMapping("/getAll")
     public ResponseUtil<?> getAll() {

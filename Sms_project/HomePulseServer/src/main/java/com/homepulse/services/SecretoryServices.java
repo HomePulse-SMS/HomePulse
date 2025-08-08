@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 
 public interface SecretoryServices {
 
+    int updateUserProfile(int id, String fname, String lname, String contact);
+
     List<Users> findAll();
     List<Users> findByRole(String role);
     List<Users> findByApprovalFalse();
