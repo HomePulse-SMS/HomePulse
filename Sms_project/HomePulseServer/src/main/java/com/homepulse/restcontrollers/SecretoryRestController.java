@@ -1,6 +1,8 @@
 package com.homepulse.restcontrollers;
 
 import com.homepulse.entities.VisitorLogs;
+import com.homepulse.entities.userEmpSecretory.Amenity;
+import com.homepulse.entities.userEmpSecretory.AmenityBooking;
 import com.homepulse.entities.userEmpSecretory.Complaints;
 import com.homepulse.entities.userEmpSecretory.Notice;
 import com.homepulse.entities.userEmpSecretory.Users;
@@ -9,6 +11,11 @@ import com.homepulse.services.SecretoryServices;
 import com.homepulse.services.UsersServices;
 import com.homepulse.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -189,5 +196,50 @@ public class SecretoryRestController {
         return ResponseEntity.ok(complaints);
     }
     
- 
+    @PostMapping("/addAmenity")
+    public Amenity createAmenity(@RequestBody Amenity amenity, Authentication authentication) {
+        Integer createdById = Integer.parseInt(authentication.getName()); // adapt this based on your security setup
+        return secretoryServices.createAmenity(amenity, createdById);
+    }
+
+    @GetMapping("getAllAmenities")
+    public List<Amenity> getAllAmenities() {
+        return secretoryServices.getAllAmenities();
+    }
+    
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> delete(@PathVariable Integer id) {
+    	secretoryServices.deleteAmenity(id);
+        return ResponseEntity.ok(Map.of("message", "Deleted"));
+    }
+    
+    // Amenities
+    @PatchMapping("/amenity-bookings/approve/{bookingId}")
+    public ResponseEntity<AmenityBooking> approveBooking(@PathVariable Integer bookingId,
+                                                         @RequestBody Map<String, String> body) {
+        Integer approvedById = Integer.parseInt(body.get("approvedById"));
+        AmenityBooking approvedBooking = secretoryServices.approveBooking(bookingId, approvedById);
+        return ResponseEntity.ok(approvedBooking);
+    }
+
+    @GetMapping("/getAllBookings")
+    public ResponseEntity<List<AmenityBooking>> all() {
+        return ResponseEntity.ok(secretoryServices.getAllBookings());
+    }
+    
+    @GetMapping("/users/{userId}")
+    public ResponseEntity<List<AmenityBooking>> byUser(@PathVariable Integer userId) {
+        return ResponseEntity.ok(secretoryServices.getBookingsByUser(userId));
+    }
+    
+    @PutMapping("/{bookingId}/cancel/{secretaryId}")
+    public ResponseEntity<String> cancelBooking(
+            @PathVariable int bookingId,
+            @PathVariable int secretaryId) throws Exception {
+
+    	secretoryServices.cancelBooking(bookingId, secretaryId);
+        return ResponseEntity.ok("Booking cancelled successfully.");
+    }
+    
+  
 }

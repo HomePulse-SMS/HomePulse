@@ -1,10 +1,12 @@
 package com.homepulse.restcontrollers;
 
+import com.homepulse.entities.userEmpSecretory.AmenityBooking;
 import com.homepulse.entities.userEmpSecretory.Complaints;
 import com.homepulse.entities.userEmpSecretory.Users;
 import com.homepulse.services.UsersServices;
 import com.homepulse.util.ResponseUtil;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,5 +65,24 @@ public class UsersRestController {
         return ResponseEntity.ok(usersServices.raiseComplaint(userId, description));
     }
 
+    
+    // Amenities
+    @PostMapping("/book/{amenityId}")
+    public ResponseEntity<AmenityBooking> bookAmenity(@PathVariable Integer amenityId,
+                                                      @RequestBody Map<String, String> body) {
+        Integer userId = Integer.parseInt(body.get("userId"));
+        LocalDateTime start = LocalDateTime.parse(body.get("start"));
+        LocalDateTime end = LocalDateTime.parse(body.get("end"));
+
+        AmenityBooking booking = usersServices.bookAmenity(amenityId, userId, start, end);
+        return ResponseEntity.ok(booking);
+    }
+
+    
+    @PatchMapping("/cancel/{bookingId}")
+    public ResponseEntity<AmenityBooking> cancelBooking(@PathVariable Integer bookingId) {
+        AmenityBooking cancelledBooking = usersServices.cancelBooking(bookingId);
+        return ResponseEntity.ok(cancelledBooking);
+    }
 
 }

@@ -54,6 +54,8 @@ public class SecurityConfig {
                                .requestMatchers("/secretary/**").hasAuthority("SECRETARY")
 		                .requestMatchers("/user/**").hasAnyAuthority("USER", "SECRETARY")
 		                .requestMatchers("/secretory").permitAll()
+		                .requestMatchers("/amenity-bookings/approve/**").hasAnyAuthority("SECRETARY")
+
 
 
 						    
