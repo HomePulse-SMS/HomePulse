@@ -1,6 +1,8 @@
 package com.homepulse.services;
 
 import com.homepulse.entities.VisitorLogs;
+import com.homepulse.entities.userEmpSecretory.Amenity;
+import com.homepulse.entities.userEmpSecretory.AmenityBooking;
 import com.homepulse.entities.userEmpSecretory.Complaints;
 import com.homepulse.entities.userEmpSecretory.Notice;
 import com.homepulse.entities.userEmpSecretory.Users;
@@ -49,6 +51,23 @@ public interface SecretoryServices {
     List<Complaints> getComplaintsByUser(int userId);
     
     List<Complaints> getComplaintsByStatus(String status);
+
+    // Amenities
+    Amenity createAmenity(Amenity amenity, Integer createdById);
+
+    List<Amenity> getAllAmenities();
+    
+    void deleteAmenity(Integer id);
+    
+    AmenityBooking approveBooking(Integer bookingId, Integer approvedById);
+    
+    List<AmenityBooking> getAllBookings();
+
+
+    List<AmenityBooking> getBookingsByUser(Integer userId);
+
+
+    void cancelBooking(int bookingId, int secretaryId) throws Exception;
 
 
 
