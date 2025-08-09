@@ -4,12 +4,19 @@ import com.homepulse.daos.admin.SocietyDao;
 import com.homepulse.daos.guard.GuardDao;
 import com.homepulse.daos.secretory.NoticeDao;
 import com.homepulse.daos.secretory.SecretoryDao;
+import com.homepulse.daos.users.ComplaintsDao;
 import com.homepulse.daos.users.UsersDao;
 import com.homepulse.entities.VisitorLogs;
 import com.homepulse.entities.admin.Society;
+import com.homepulse.entities.userEmpSecretory.Complaints;
 import com.homepulse.entities.userEmpSecretory.Notice;
 import com.homepulse.entities.userEmpSecretory.Users;
+
+import jakarta.persistence.EntityNotFoundException;
+
+import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -29,6 +36,9 @@ public class SecretoryServicesImpl implements SecretoryServices {
     
     @Autowired
     private UsersDao usersDao;
+    
+    @Autowired
+    private ComplaintsDao complaintsDao;
     
     @Autowired 
     private SocietyDao societyDao;
@@ -168,8 +178,66 @@ public class SecretoryServicesImpl implements SecretoryServices {
 
 		    noticeDao.save(existingNotice);
 
+	
+
+
+}
+
+	@Override
+	public ResponseEntity<String> replyToComplaint(int complaintId, String secretaryEmail, String reply) {
+//		Complaints complaint = complaintsDao.findById(complaintId)
+//		        .orElseThrow(() -> new RuntimeException("Complaint not found"));
+//
+//		    Users secretary = usersDao.findByEmail(secretaryEmail);
+//		    if (secretary == null) {
+//		        throw new RuntimeException("Secretary not found");
+//		    }
+//
+//		    complaint.setReply(reply);
+//		    complaint.setStatus("Resolved");
+//		    
+//		    return complaintsDao.save(complaint);
 		
+		
+		 Optional<Complaints> complaintOpt = complaintsDao.findById(complaintId);
+	        if (!complaintOpt.isPresent()) {
+	            return ResponseEntity.badRequest().body("Complaint not found");
+	        }
+
+	        Users secretary = usersDao.findByEmail(secretaryEmail);
+	        if (secretary == null || !secretary.getRole().equalsIgnoreCase("SECRETARY")) {
+	            return ResponseEntity.badRequest().body("Invalid secretary email");
+	        }
+
+	        Complaints complaint = complaintOpt.get();
+	        complaint.setReply(reply);
+	        complaint.setStatus("Resolved");
+	        complaintsDao.save(complaint);
+
+	        return ResponseEntity.ok("Reply sent to user successfully");
 	}
+	 @Override
+	    public List<Complaints> getAllComplaints() {
+	        return complaintsDao.findAll();
+	    }
 
+	@Override
+	public List<Complaints> getComplaintsByUser(int userId) {
+		  
+		    
+		        Users user = usersDao.findById(userId)
+		                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+		        return complaintsDao.findByUser(user);
+		    }
 
+	@Override
+	public List<Complaints> getComplaintsByStatus(String status) {
+		 return complaintsDao.findByStatus(status);
+	}
+	
+
+	
+
+	
+	
 }

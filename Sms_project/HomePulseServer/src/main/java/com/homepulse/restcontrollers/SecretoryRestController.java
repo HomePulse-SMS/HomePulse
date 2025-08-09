@@ -1,15 +1,18 @@
 package com.homepulse.restcontrollers;
 
 import com.homepulse.entities.VisitorLogs;
+import com.homepulse.entities.userEmpSecretory.Complaints;
 import com.homepulse.entities.userEmpSecretory.Notice;
 import com.homepulse.entities.userEmpSecretory.Users;
 import com.homepulse.models.UpdateSecretoryProfileDTO;
 import com.homepulse.services.SecretoryServices;
+import com.homepulse.services.UsersServices;
 import com.homepulse.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RequestMapping("/secretory")
 @RestController
@@ -17,9 +20,12 @@ public class SecretoryRestController {
 
     @Autowired
     private SecretoryServices secretoryServices;
+  
+   @Autowired
+    private UsersServices usersServices;
     
 
-
+  
     @PutMapping("/updateProfile/{id}")
         public ResponseUtil<String> updateProfile(@PathVariable int id, @RequestBody UpdateSecretoryProfileDTO updateSecretoryProfileDTO) {
         String fname = updateSecretoryProfileDTO.getFname();
@@ -147,12 +153,41 @@ public class SecretoryRestController {
         secretoryServices.updateNotice(id, updatedNotice);
         return ResponseUtil.apiSuccess("Notice updated successfully");
     }
+      
+  // Reply to a complaint (SECRETARY)
 
+    @PostMapping("/reply")
+    public ResponseEntity<?> replyToComplaint(@RequestBody Map<String, String> body) {
+        try {
+            int complaintId = Integer.parseInt(body.get("complaintId"));
+            String secretaryEmail = body.get("secretaryEmail");
+            String reply = body.get("reply");
+
+            return secretoryServices.replyToComplaint(complaintId, secretaryEmail, reply);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Invalid request data: " + e.getMessage());
+        }
+    }
     
-
+    // Secretary views all complaints
+    @GetMapping("/allRaiseUsers")
+    public ResponseEntity<List<Complaints>> getAllComplaints() {
+        return ResponseEntity.ok(secretoryServices.getAllComplaints());
+    }
     
     
-
-
-
+ // Get complaints by userid
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<Complaints>> getComplaintsByUser(@PathVariable int userId) {
+        return ResponseEntity.ok(secretoryServices.getComplaintsByUser(userId));
+    }
+    
+    // Secretary can check complaints by status
+    @GetMapping("/status/{status}")
+    public ResponseEntity<List<Complaints>> getComplaintsByStatus(@PathVariable String status) {
+        List<Complaints> complaints = secretoryServices.getComplaintsByStatus(status);
+        return ResponseEntity.ok(complaints);
+    }
+    
+ 
 }

@@ -1,5 +1,6 @@
 package com.homepulse.services;
 
+import com.homepulse.entities.userEmpSecretory.Complaints;
 import com.homepulse.entities.userEmpSecretory.Users;
 
 public interface UsersServices {
@@ -10,4 +11,8 @@ public interface UsersServices {
     Users findByEmailAndPassword(String email, String password);
 
     void markIsVerifiedTrue(int id);
+    
+    Complaints raiseComplaint(int userId, String description);
+
+
 }

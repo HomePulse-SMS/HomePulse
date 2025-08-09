@@ -49,6 +49,18 @@ public class SecurityConfig {
 						.requestMatchers("/users/register").permitAll()
 //						.requestMatchers("/admin/**").hasAuthority("ADMIN") // change this
 						.requestMatchers("/admin/**").permitAll() // temporory
+
+                               
+                               .requestMatchers("/secretary/**").hasAuthority("SECRETARY")
+		                .requestMatchers("/user/**").hasAnyAuthority("USER", "SECRETARY")
+		                .requestMatchers("/secretory").permitAll()
+
+
+						    
+
+						
+			            .requestMatchers("/societies/**").hasAuthority("ADMIN")
+
 						.requestMatchers("/secretary/**").permitAll() //change
 		                .requestMatchers("/user/**").permitAll()
 			            .requestMatchers("/societies/**").permitAll()
