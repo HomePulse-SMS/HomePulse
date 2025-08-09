@@ -49,7 +49,7 @@ public class SecurityConfig {
 						.requestMatchers("/users/register").permitAll()
 //						.requestMatchers("/admin/**").hasAuthority("ADMIN") // change this
 						.requestMatchers("/admin/**").permitAll() // temporory
-						.requestMatchers("/secretary/**").permitAll() //change
+						.requestMatchers("/secretory/**").permitAll() //change
 		                .requestMatchers("/user/**").permitAll()
 			            .requestMatchers("/societies/**").permitAll()
 						.requestMatchers("/guard/**").permitAll()
