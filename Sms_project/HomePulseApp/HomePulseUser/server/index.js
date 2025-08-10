@@ -4,17 +4,14 @@ const socketIO = require('socket.io');
 const cors = require('cors');
 const mongoose = require('mongoose');
 
-// Express setup
 const app = express();
 app.use(cors());
 
-// MongoDB connection
 mongoose.connect('mongodb://localhost:27017/chatpolls', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
-// Mongoose Schema
 const pollSchema = new mongoose.Schema({
   question: String,
   option1: String,
@@ -32,18 +29,17 @@ const pollSchema = new mongoose.Schema({
   options: [String],
   votes: Object,
   comments: [String],
-  status: String, 
+  status: String,
+  createdBy: { type: String },
 });
 
 const Poll = mongoose.model('Poll', pollSchema);
 
-// HTTP and Socket.IO server
 const server = http.createServer(app);
 const io = socketIO(server, {
   cors: { origin: '*' },
 });
 
-// ✅ All socket event handlers must be INSIDE this block
 io.on('connection', (socket) => {
   console.log('User connected');
 
@@ -56,7 +52,6 @@ io.on('connection', (socket) => {
         console.error('Error fetching polls:', err);
       });
 
-  // Create poll
   socket.on('createPoll', async (poll) => {
     try {
       const newPoll = new Poll({ ...poll, comments: [] });
@@ -122,8 +117,21 @@ io.on('connection', (socket) => {
     }
   });
 
+  socket.on("deletePoll", async ({ pollId, userId }) => {
+    try {
+      const poll = await Poll.findOne({ id: pollId });
 
-  // Add comment
+      if (!poll) return;
+      if (poll.createdBy !== userId) return; // Prevent unauthorized delete
+
+      await Poll.deleteOne({ id: pollId });
+      io.emit("pollDeleted", { pollId });
+    } catch (err) {
+      console.error("Error deleting poll:", err);
+    }
+  });
+
+
   socket.on('newComment', async ({ pollId, text }) => {
     try {
       const poll = await Poll.findOne({ id: pollId });
@@ -137,12 +145,15 @@ io.on('connection', (socket) => {
     }
   });
 
+  socket.on('startRing', ({ name, photo }) => {
+    io.emit('incomingCall', { name, photo });
+  });
+
   socket.on('disconnect', () => {
     console.log('User disconnected');
   });
 });
 
-// Server listening
 server.listen(3000, () => {
-  console.log('✅ Server running on http://localhost:3000');
+  console.log('Server running on http://localhost:3000');
 });
