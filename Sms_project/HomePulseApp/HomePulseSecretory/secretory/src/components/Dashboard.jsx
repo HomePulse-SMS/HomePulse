@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css'; // Ensure Bootstrap CSS is imported
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import Notices from "./DashboardComponents/Notices.jsx";
+import AllUsers from "./DashboardComponents/AllUsers.jsx";  
+import AllVisitors from "./DashboardComponents/AllVisitors.jsx";  
+
+
 import PendingApprovals from "./DashboardComponents/PendingApprovals.jsx";
 import ApprovedUsers from "./DashboardComponents/Approved.jsx"; // Ensure Bootstrap JS is imported
 
@@ -77,10 +81,10 @@ const DashboardLayout = ({ user, onLogout }) => {
                 return <Notices />;
             case 'notApproved':
                 return <PendingApprovals />;
-            case 'allUsers':
-                return <PlaceholderContent title="All Users" />;
-            case 'allVisitors':
-                return <PlaceholderContent title="All Visitors" />;
+             case 'allUsers': return <AllUsers />;    
+
+           case 'allVisitors':
+            return <AllVisitors />;
             case 'approved':
                 return <ApprovedUsers title="Approved Users" />;
             default:

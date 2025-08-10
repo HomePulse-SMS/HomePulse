@@ -38,7 +38,7 @@ const CompleteProfile = ({ user, onProfileComplete  }) => {
         }
 
         try {
-            const API_URL = `http://localhost:8080/secretory/updateProfile/${userId}`;
+            const API_URL = `http://localhost:9090/secretory/updateProfile/${userId}`;
             const payload = {
                 fname: firstName,
                 lname: lastName,

@@ -47,13 +47,21 @@ public class SecurityConfig {
 				.authorizeHttpRequests(requests -> requests
 						.requestMatchers("/authenticate").permitAll()
 						.requestMatchers("/users/register").permitAll()
+                       // .requestMatchers("/secretary/**").hasAuthority("SECRETARY")
+		                //.requestMatchers("/user/**").hasAnyAuthority("USER", "SECRETARY")
+
+
 //						.requestMatchers("/admin/**").hasAuthority("ADMIN") // change this
 						.requestMatchers("/secretory/**").permitAll() //change
+                        //.requestMatchers("/secretary/**").hasAuthority("SECRETARY")
+						 .requestMatchers("/secretory/user/**").hasAnyRole("USER", "SECRETARY")
                         .requestMatchers("/secretory/notApproved").permitAll()
 		                .requestMatchers("/user/**").permitAll()
 			            .requestMatchers("/societies/**").permitAll()
 						.requestMatchers("/guard/**").permitAll()
                         .requestMatchers("/admin/**").permitAll()
+		                .requestMatchers("/amenity-bookings/approve/**").hasAnyAuthority("SECRETARY")
+
 
 
                        	.anyRequest().authenticated())

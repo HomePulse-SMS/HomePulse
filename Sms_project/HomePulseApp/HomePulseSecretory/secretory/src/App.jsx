@@ -3,6 +3,9 @@ import {useEffect, useState} from "react";
 import CompleteProfile from "./components/CompleteProfile.jsx";
 import DashboardLayout from "./components/Dashboard.jsx";
 
+import AllUsers from "./components/DashboardComponents/AllUsers.jsx";
+
+
 const App = () => {
     const [page, setPage] = useState('login'); // Can be 'login' or 'completeProfile'
     const [user, setUser] = useState(null);
