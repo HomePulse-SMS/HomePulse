@@ -41,7 +41,7 @@ const LoginScreen = ({ onLoginSuccess }) => {
         setLoading(true);
 
         try {
-            const API_URL = "http://localhost:8080/authenticate";
+            const API_URL = "http://localhost:9090/authenticate";
             const response = await axios.post(API_URL, { email, password });
 
             const token = response.data?.data?.jwttoken;

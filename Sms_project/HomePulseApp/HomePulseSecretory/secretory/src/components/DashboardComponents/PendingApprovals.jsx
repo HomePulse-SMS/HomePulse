@@ -103,7 +103,7 @@ const PendingApprovals = () => {
         setIsSubmitting(true);
         setSubmitError(null);
         try {
-            const response = await fetch(`http://localhost:8080/secretory/approve/${userId}`, {
+            const response = await fetch(`http://localhost:9090/secretory/approve/${userId}`, {
                 method: 'PATCH',
             });
 
