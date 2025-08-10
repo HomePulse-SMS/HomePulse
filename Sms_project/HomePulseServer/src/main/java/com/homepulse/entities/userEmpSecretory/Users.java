@@ -3,6 +3,8 @@ package com.homepulse.entities.userEmpSecretory;
 import java.util.Collection;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,9 +13,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.homepulse.entities.admin.Society;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
 @Entity
 @Table(name = "users")
@@ -41,9 +40,10 @@ public class Users implements UserDetails{
     @Column(name = "approval")
     private boolean approval;
 
-    @ManyToOne
+    @ManyToOne(fetch =  FetchType.EAGER)
     @JoinColumn(name = "society_name")
-    @JsonIgnoreProperties({"userList", "Location"}) //prevent circuler ref
+    @JsonIgnoreProperties({"userList", "location"}) //prevent circuler ref
+//    @JsonBackReference
     private Society societyId;
 
     @Column(name = "flat_no")
@@ -51,7 +51,8 @@ public class Users implements UserDetails{
     @Column(name = "wing")
     private String wing;
     
-    
+
+    @JsonIgnore
 	public Collection<GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(this.role);
 		return authorities;

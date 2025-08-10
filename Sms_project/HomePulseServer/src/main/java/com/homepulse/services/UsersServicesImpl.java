@@ -19,10 +19,9 @@ public class UsersServicesImpl implements UsersServices, UserDetailsService{
 
     @Autowired
     private GuardDao guardDao;
-    
-    
-    @Autowired
+
     @Lazy
+    @Autowired
     private PasswordEncoder pwen;
 
 //    @Override
@@ -35,8 +34,10 @@ public class UsersServicesImpl implements UsersServices, UserDetailsService{
         user.setPassword(pwen.encode(user.getPassword()));
 
         // Optional: Normalize role to uppercase (e.g., "ADMIN")
-        user.setRole(user.getRole().toUpperCase());
-
+//        user.setRole(user.getRole().toUpperCase());
+        user.setRole("USER");
+        user.setFlag(false);
+        user.setApproval(false);
         // Save the user
         return usersDao.save(user);
     }

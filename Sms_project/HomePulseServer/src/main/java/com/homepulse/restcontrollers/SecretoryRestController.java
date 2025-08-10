@@ -48,6 +48,7 @@ public class SecretoryRestController {
     @GetMapping("/notApproved")
     public ResponseUtil<?> findByApprovalFalse() {
         List<Users> list = secretoryServices.findByApprovalFalse();
+//        System.out.println(list);
         return ResponseUtil.apiSuccess(list);
     }
 

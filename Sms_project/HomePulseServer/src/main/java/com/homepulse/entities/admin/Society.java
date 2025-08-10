@@ -6,9 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.homepulse.entities.userEmpSecretory.Users;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -26,17 +24,16 @@ public class Society {
 	@Column(name="subcity")
 	private String subcity;
 
-//	@ManyToOne
-//	@JoinColumn(name = "location_id")
-//	@JsonIgnoreProperties({"societyList"}) //avoid circular refs
-//	private Location location;
-
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "location_id")
+//	@JsonIgnoreProperties("societyList") //avoid circular refs
+//    @JsonBackReference
 	private Location location;
 
-	
-	@OneToMany(mappedBy = "societyId")
-	@JsonIgnore
+
+	@OneToMany(mappedBy = "societyId" , fetch = FetchType.LAZY)
+//	@JsonManagedReference
+//    @JsonIgnoreProperties("societyId")
+    @JsonIgnore
 	private List<Users> usersList;
 }
