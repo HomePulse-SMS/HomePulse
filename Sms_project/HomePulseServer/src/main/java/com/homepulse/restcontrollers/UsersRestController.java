@@ -56,13 +56,21 @@ public class UsersRestController {
         return ResponseUtil.apiSuccess("Marked Verified");
     }
     
-    // User raises complaint
+    // User raises complaints
     @PostMapping("/raiseComplaint")
     public ResponseEntity<Complaints> raiseComplaint(@RequestBody Map<String, String> request) {
         int userId = Integer.parseInt(request.get("userId"));
         String description = request.get("description");
 
         return ResponseEntity.ok(usersServices.raiseComplaint(userId, description));
+    }
+
+    
+    // Cancle Booking
+    @PatchMapping("/cancel/{bookingId}")
+    public ResponseEntity<AmenityBooking> cancelBooking(@PathVariable Integer bookingId) {
+        AmenityBooking cancelledBooking = usersServices.cancelBooking(bookingId);
+        return ResponseEntity.ok(cancelledBooking);
     }
 
     
@@ -78,11 +86,5 @@ public class UsersRestController {
         return ResponseEntity.ok(booking);
     }
 
-    
-    @PatchMapping("/cancel/{bookingId}")
-    public ResponseEntity<AmenityBooking> cancelBooking(@PathVariable Integer bookingId) {
-        AmenityBooking cancelledBooking = usersServices.cancelBooking(bookingId);
-        return ResponseEntity.ok(cancelledBooking);
-    }
-
+  
 }

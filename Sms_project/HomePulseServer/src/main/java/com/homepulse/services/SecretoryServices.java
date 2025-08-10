@@ -59,6 +59,9 @@ public interface SecretoryServices {
     
     void deleteAmenity(Integer id);
     
+    
+    // Amenity Bookings
+    
     AmenityBooking approveBooking(Integer bookingId, Integer approvedById);
     
     List<AmenityBooking> getAllBookings();

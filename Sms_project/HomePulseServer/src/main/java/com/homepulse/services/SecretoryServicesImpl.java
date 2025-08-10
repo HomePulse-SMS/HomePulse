@@ -277,14 +277,10 @@ public class SecretoryServicesImpl implements SecretoryServices {
 	public List<AmenityBooking> getAllBookings() {
         return amenitybookingDao.findAll();
 
+        
+        
 	}
-
-	@Override
-	public List<AmenityBooking> getBookingsByUser(Integer userId) {
-        return amenitybookingDao.findByUserId(userId);
-
-	}
-
+	
 	@Override
 	public void cancelBooking(int bookingId, int secretaryId) throws Exception {
 		 AmenityBooking booking = amenitybookingDao.findById(bookingId).orElse(null);
@@ -308,6 +304,14 @@ public class SecretoryServicesImpl implements SecretoryServices {
 	        amenitybookingDao.save(booking);
 	
 } 
+
+	@Override
+	public List<AmenityBooking> getBookingsByUser(Integer userId) {
+        return amenitybookingDao.findByUserId(userId);
+
+	}
+
+	
 }
 		
 

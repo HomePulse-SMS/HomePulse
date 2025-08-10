@@ -102,6 +102,17 @@ public class UsersServicesImpl implements UsersServices, UserDetailsService{
 	        return complaintsDao.save(complaint);
 	}
 	
+
+	@Override
+	public AmenityBooking cancelBooking(Integer bookingId) {
+		 AmenityBooking booking = amenitybookingDao.findById(bookingId)
+		            .orElseThrow(() -> new RuntimeException("Booking not found with id: " + bookingId));
+
+		        booking.setStatus("CANCELLED");
+		        return amenitybookingDao.save(booking);
+	}
+
+	
 	 public AmenityBooking bookAmenity(Integer amenityId, Integer userId, LocalDateTime start, LocalDateTime end) {
 	        Amenity amenity = amenityDao.findById(amenityId)
 	                .orElseThrow(() -> new IllegalArgumentException("Amenity not found with id: " + amenityId));
@@ -122,15 +133,6 @@ public class UsersServicesImpl implements UsersServices, UserDetailsService{
 	
 
 	
-	}
-
-	@Override
-	public AmenityBooking cancelBooking(Integer bookingId) {
-		 AmenityBooking booking = amenitybookingDao.findById(bookingId)
-		            .orElseThrow(() -> new RuntimeException("Booking not found with id: " + bookingId));
-
-		        booking.setStatus("CANCELLED");
-		        return amenitybookingDao.save(booking);
 	}
 
 }

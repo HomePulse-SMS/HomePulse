@@ -1,5 +1,6 @@
 package com.homepulse.entities.userEmpSecretory;
 
+
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -19,6 +20,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+//Amenity Booking
 @Entity
 @Table(name = "amenity_bookings")
 @Data

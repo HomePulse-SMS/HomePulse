@@ -227,11 +227,8 @@ public class SecretoryRestController {
         return ResponseEntity.ok(secretoryServices.getAllBookings());
     }
     
-    @GetMapping("/users/{userId}")
-    public ResponseEntity<List<AmenityBooking>> byUser(@PathVariable Integer userId) {
-        return ResponseEntity.ok(secretoryServices.getBookingsByUser(userId));
-    }
     
+    // booking cancle 
     @PutMapping("/{bookingId}/cancel/{secretaryId}")
     public ResponseEntity<String> cancelBooking(
             @PathVariable int bookingId,
@@ -241,5 +238,14 @@ public class SecretoryRestController {
         return ResponseEntity.ok("Booking cancelled successfully.");
     }
     
+    
+    
+    
+    @GetMapping("/users/{userId}")
+    public ResponseEntity<List<AmenityBooking>> byUser(@PathVariable Integer userId) {
+        return ResponseEntity.ok(secretoryServices.getBookingsByUser(userId));
+    }
+    
+  
   
 }
