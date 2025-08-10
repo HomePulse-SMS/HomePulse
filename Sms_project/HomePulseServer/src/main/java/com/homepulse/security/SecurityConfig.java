@@ -48,32 +48,12 @@ public class SecurityConfig {
 						.requestMatchers("/authenticate").permitAll()
 						.requestMatchers("/users/register").permitAll()
 //						.requestMatchers("/admin/**").hasAuthority("ADMIN") // change this
-						.requestMatchers("/admin/**").permitAll() // temporory
-
 						.requestMatchers("/secretory/**").permitAll() //change
+                        .requestMatchers("/secretory/notApproved").permitAll()
 		                .requestMatchers("/user/**").permitAll()
 			            .requestMatchers("/societies/**").permitAll()
 						.requestMatchers("/guard/**").permitAll()
-
-
-                               
-                               .requestMatchers("/secretary/**").hasAuthority("SECRETARY")
-		                .requestMatchers("/user/**").hasAnyAuthority("USER", "SECRETARY")
-		                .requestMatchers("/secretory").permitAll()
-		                .requestMatchers("/amenity-bookings/approve/**").hasAnyAuthority("SECRETARY")
-
-
-
-						    
-
-						
-			            .requestMatchers("/societies/**").hasAuthority("ADMIN")
-
-
-						.requestMatchers("/secretary/**").permitAll() //change
-		                .requestMatchers("/user/**").permitAll()
-			            .requestMatchers("/societies/**").permitAll()
-						.requestMatchers("/guard/**").permitAll()
+                        .requestMatchers("/admin/**").permitAll()
 
 
                        	.anyRequest().authenticated())

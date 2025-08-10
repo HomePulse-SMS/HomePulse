@@ -1,6 +1,5 @@
 import {useState} from "react";
 import axios from "axios";
-
 import Spinner from "./Spinner.jsx";
 
 // const Spinner = () => (
@@ -8,14 +7,6 @@ import Spinner from "./Spinner.jsx";
 //         <span className="visually-hidden">Loading...</span>
 //     </div>
 // );
-
-
-const Spinner = () => (
-    <div className="spinner-border spinner-border-sm" role="status">
-        <span className="visually-hidden">Loading...</span>
-    </div>
-);
-
 
 const CompleteProfile = ({ user, onProfileComplete  }) => {
     const [firstName, setFirstName] = useState("Sanjay");

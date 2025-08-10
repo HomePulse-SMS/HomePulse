@@ -19,6 +19,7 @@ const useFetchData = (endpoint) => {
                 const response = await axios.get(`http://localhost:8080/secretory/${endpoint}`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
+                console.log("In DataFetchPoint:", response.data.data);
                 setData(response.data?.data || []);
             } catch (err) {
                 setError(`Failed to fetch data from ${endpoint}.`);

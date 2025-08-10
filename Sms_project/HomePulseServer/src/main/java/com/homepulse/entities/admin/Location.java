@@ -1,12 +1,10 @@
 package com.homepulse.entities.admin;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -30,7 +28,8 @@ public class Location {
 	private String district;
 
 	@JsonIgnore
-	@OneToMany(mappedBy = "location")
+	@OneToMany(mappedBy = "location", fetch = FetchType.LAZY)
+//    @JsonManagedReference
 	private List<Society> societyList;
 
 }

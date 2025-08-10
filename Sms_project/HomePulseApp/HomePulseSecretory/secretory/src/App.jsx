@@ -1,18 +1,11 @@
 import LoginScreen from "./components/LoginScreen.jsx";
-
 import {useEffect, useState} from "react";
 import CompleteProfile from "./components/CompleteProfile.jsx";
 import DashboardLayout from "./components/Dashboard.jsx";
 
-import {useState} from "react";
-import CompleteProfile from "./components/CompleteProfile.jsx";
-import Dashboard from "./components/Dashboard.jsx";
-
-
 const App = () => {
     const [page, setPage] = useState('login'); // Can be 'login' or 'completeProfile'
     const [user, setUser] = useState(null);
-
 
     useEffect(() => {
         const script = document.createElement('script');
@@ -28,8 +21,6 @@ const App = () => {
             document.body.removeChild(script);
         }
     }, []);
-
-
 
     const handleLoginSuccess = (loggedInUser) => {
 
@@ -57,17 +48,10 @@ const App = () => {
 
     const renderPage = () => {
         switch(page) {
-
             case 'dashboard':
                 return user ? <DashboardLayout user={user} onLogout={handleLogout} /> : <LoginScreen onLoginSuccess={handleLoginSuccess} />;
             case 'completeProfile':
                 return user ? <CompleteProfile user={user} onProfileComplete={handleProfileComplete} /> : <LoginScreen onLoginSuccess={handleLoginSuccess} />;
-
-            case 'completeProfile':
-                return <CompleteProfile user={user} onProfileComplete={handleProfileComplete} />;
-            case 'dashboard':
-                return <Dashboard user={user} onLogout={handleLogout} />;
-
             case 'login':
             default:
                 return <LoginScreen onLoginSuccess={handleLoginSuccess} />;
@@ -76,20 +60,12 @@ const App = () => {
 
     return (
         <>
-
             <style>
                 {`
                     @import url('https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css');
                     @import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css');
                 `}
             </style>
-
-            {/* This style tag dynamically imports Bootstrap CSS from a CDN. */}
-            <style>
-                {`@import url('https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css');`}
-            </style>
-
-
             {renderPage()}
         </>
     );
