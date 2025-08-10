@@ -50,6 +50,12 @@ public class SecurityConfig {
 //						.requestMatchers("/admin/**").hasAuthority("ADMIN") // change this
 						.requestMatchers("/admin/**").permitAll() // temporory
 
+						.requestMatchers("/secretory/**").permitAll() //change
+		                .requestMatchers("/user/**").permitAll()
+			            .requestMatchers("/societies/**").permitAll()
+						.requestMatchers("/guard/**").permitAll()
+
+
                                
                                .requestMatchers("/secretary/**").hasAuthority("SECRETARY")
 		                .requestMatchers("/user/**").hasAnyAuthority("USER", "SECRETARY")
@@ -62,6 +68,7 @@ public class SecurityConfig {
 
 						
 			            .requestMatchers("/societies/**").hasAuthority("ADMIN")
+
 
 						.requestMatchers("/secretary/**").permitAll() //change
 		                .requestMatchers("/user/**").permitAll()

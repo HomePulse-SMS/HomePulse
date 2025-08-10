@@ -16,9 +16,12 @@ import com.homepulse.entities.userEmpSecretory.Complaints;
 import com.homepulse.entities.userEmpSecretory.Notice;
 import com.homepulse.entities.userEmpSecretory.Users;
 
+
+
 import jakarta.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.ListableBeanFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -27,8 +30,11 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
+
 import java.util.Objects;
 import java.util.Optional;
+
 
 @Service
 public class SecretoryServicesImpl implements SecretoryServices {
@@ -57,6 +63,12 @@ public class SecretoryServicesImpl implements SecretoryServices {
     @Autowired
     private AmenityBookingDao amenitybookingDao;
   
+
+    @Override
+    public int updateUserProfile(int id, String fname, String lname, String contact) {
+        int rowsAffected = secretoryDao.updateProfile(id, fname, lname, contact);
+        return rowsAffected;
+    }
 
     @Override
     public int updateUserProfile(int id, String fname, String lname, String contact) {
