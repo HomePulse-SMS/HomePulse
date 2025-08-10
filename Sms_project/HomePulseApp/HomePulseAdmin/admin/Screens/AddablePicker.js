@@ -15,8 +15,8 @@ const AddablePicker = ({ label, items, setItems, selectedValue, setSelectedValue
     };
 
     useEffect(() => {
-        fetch('http://172.18.4.222:8080/admin/addSociety', {
-            method: "GET",
+        fetch('http://locslhost:8080/admin/addSociety', {
+            method: "POST",
             headers: {
                 "Content-Type": "application/json"
             }

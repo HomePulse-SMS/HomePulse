@@ -14,7 +14,7 @@ const CreateSociety = () => {
     const [pass, setPass] = useState("");
 
     const savedAdmin =async(uid,u,p)=>{
-        await fetch("http://172.18.4.222:8080/admin/addSecretory", {
+        await fetch("http://localhost:8080/admin/addSecretory", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

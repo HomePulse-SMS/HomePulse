@@ -15,7 +15,7 @@ const AddLocation = () => {
     const [selectedSubCity, setSelectedSubCity] = useState('');
 
     useEffect(() => {
-        fetch('http://172.18.4.222:8080/admin/getAllLocation', {
+        fetch('http://localhost:8080/admin/getAllLocation', {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -36,7 +36,7 @@ const AddLocation = () => {
     const add = async () => {
         console.log("use ",useNewer);
         if(useNewer){
-            await fetch("http://172.18.4.222:8080/admin/addLocation", {
+            await fetch("http://localhost:8080/admin/addLocation", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
