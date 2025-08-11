@@ -19,8 +19,6 @@ public class UsersRestController {
 
     @Autowired
     private UsersServices usersServices;
-    
-  
 
     @PostMapping("/register")
     public ResponseUtil<?> register(@RequestBody Users users) {
@@ -64,6 +62,15 @@ public class UsersRestController {
 
         return ResponseEntity.ok(usersServices.raiseComplaint(userId, description));
     }
+    
+
+    
+    // Cancle Booking
+    @PatchMapping("/cancel/{bookingId}")
+    public ResponseEntity<AmenityBooking> cancelBooking(@PathVariable Integer bookingId) {
+        AmenityBooking cancelledBooking = usersServices.cancelBooking(bookingId);
+        return ResponseEntity.ok(cancelledBooking);
+    }
 
     
     // Cancle Booking
@@ -88,3 +95,5 @@ public class UsersRestController {
 
   
 }
+    
+

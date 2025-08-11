@@ -18,11 +18,8 @@ import com.homepulse.entities.userEmpSecretory.Users;
 
 import jakarta.persistence.EntityNotFoundException;
 
-import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -45,28 +42,34 @@ public class SecretoryServicesImpl implements SecretoryServices {
     @Autowired
     private UsersDao usersDao;
     
-    @Autowired
-    private ComplaintsDao complaintsDao;
-    
     @Autowired 
     private SocietyDao societyDao;
+    
+    
+    @Autowired
+    private ComplaintsDao complaintsDao;
     
     @Autowired 
     private AmenityDao amenityDao;
     
     @Autowired
     private AmenityBookingDao amenitybookingDao;
-  
 
     @Override
     public int updateUserProfile(int id, String fname, String lname, String contact) {
         int rowsAffected = secretoryDao.updateProfile(id, fname, lname, contact);
         return rowsAffected;
     }
+    
 
     @Override
     public List<Users> findAll() {
         return secretoryDao.findAll();
+    }
+    
+    @Override
+    public List<Users> getAllNormalUsers() {
+        return usersDao.findByRole("USER");
     }
 
     @Override
@@ -193,11 +196,9 @@ public class SecretoryServicesImpl implements SecretoryServices {
 
 		    noticeDao.save(existingNotice);
 
+		
+	}
 	
-
-
-}
-
 	@Override
 	public ResponseEntity<String> replyToComplaint(int complaintId, String secretaryEmail, String reply) {
 
@@ -314,4 +315,7 @@ public class SecretoryServicesImpl implements SecretoryServices {
 	
 }
 		
+
+
+	
 

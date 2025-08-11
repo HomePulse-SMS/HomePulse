@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
+import Spinner from "./Spinner.jsx";
 
 // A simple spinner component for loading states, styled with Bootstrap classes.
-const Spinner = () => (
-    <div className="spinner-border spinner-border-sm" role="status">
-        <span className="visually-hidden">Loading...</span>
-    </div>
-);
+
 // const decodeJwtManually = (token) => {
 //     try {
 //         const base64Url = token.split('.')[1];
@@ -44,7 +41,7 @@ const LoginScreen = ({ onLoginSuccess }) => {
         setLoading(true);
 
         try {
-            const API_URL = "http://localhost:8080/authenticate";
+            const API_URL = "http://localhost:9090/authenticate";
             const response = await axios.post(API_URL, { email, password });
 
             const token = response.data?.data?.jwttoken;

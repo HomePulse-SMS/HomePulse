@@ -13,7 +13,6 @@ import com.homepulse.entities.userEmpSecretory.Users;
 import jakarta.persistence.EntityNotFoundException;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -40,10 +39,9 @@ public class UsersServicesImpl implements UsersServices, UserDetailsService{
     
     @Autowired
     private AmenityBookingDao amenitybookingDao;
-  
-    
-    @Autowired
+
     @Lazy
+    @Autowired
     private PasswordEncoder pwen;
 
 //    @Override
@@ -56,8 +54,10 @@ public class UsersServicesImpl implements UsersServices, UserDetailsService{
         user.setPassword(pwen.encode(user.getPassword()));
 
         // Optional: Normalize role to uppercase (e.g., "ADMIN")
-        user.setRole(user.getRole().toUpperCase());
-
+//        user.setRole(user.getRole().toUpperCase());
+        user.setRole("USER");
+        user.setFlag(false);
+        user.setApproval(false);
         // Save the user
         return usersDao.save(user);
     }
@@ -88,7 +88,8 @@ public class UsersServicesImpl implements UsersServices, UserDetailsService{
             throw new UsernameNotFoundException("No user exists!");
         return dbUser;
 	}
-
+	
+	
 	@Override
 	public Complaints raiseComplaint(int userId, String description) {
 		 Users user = usersDao.findById(userId)
@@ -102,6 +103,7 @@ public class UsersServicesImpl implements UsersServices, UserDetailsService{
 	        return complaintsDao.save(complaint);
 	}
 	
+
 
 	@Override
 	public AmenityBooking cancelBooking(Integer bookingId) {
@@ -119,28 +121,36 @@ public class UsersServicesImpl implements UsersServices, UserDetailsService{
 	        Users user = usersDao.findById(userId)
 	                .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + userId));
 
-	        // Optional: add validations for overlapping bookings, time logic, etc.
+	public AmenityBooking bookAmenity(Integer amenityId, Integer userId, LocalDateTime start, LocalDateTime end) {
+        Amenity amenity = amenityDao.findById(amenityId)
+                .orElseThrow(() -> new IllegalArgumentException("Amenity not found with id: " + amenityId));
+        Users user = usersDao.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + userId));
 
-	        AmenityBooking booking = new AmenityBooking();
-	        booking.setAmenity(amenity);
-	        booking.setUser(user);
-	        booking.setStartTime(start);
-	        booking.setEndTime(end);
-	        booking.setStatus("PENDING");
 
-	        return amenitybookingDao.save(booking);
+        // Optional: add validations for overlapping bookings, time logic, etc.
 
+        AmenityBooking booking = new AmenityBooking();
+        booking.setAmenity(amenity);
+        booking.setUser(user);
+        booking.setStartTime(start);
+        booking.setEndTime(end);
+        booking.setStatus("PENDING");
+
+        return amenitybookingDao.save(booking);
+
+}
 	
 
-	
+
+	@Override
+	public AmenityBooking cancelBooking(Integer bookingId) {
+		 AmenityBooking booking = amenitybookingDao.findById(bookingId)
+		            .orElseThrow(() -> new RuntimeException("Booking not found with id: " + bookingId));
+
+		        booking.setStatus("CANCELLED");
+		        return amenitybookingDao.save(booking);
+
 	}
 
 }
-
-	
-
-	
-	
-	
-
-

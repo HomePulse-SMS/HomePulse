@@ -16,6 +16,8 @@ public interface SecretoryServices {
     int updateUserProfile(int id, String fname, String lname, String contact);
 
     List<Users> findAll();
+    List<Users> getAllNormalUsers();
+
     List<Users> findByRole(String role);
     List<Users> findByApprovalFalse();
     List<Users> findByApprovalTrue();
@@ -43,6 +45,7 @@ public interface SecretoryServices {
     
     void updateNotice(int id, Notice updatedNotice);       
 
+    
     ResponseEntity<String> replyToComplaint(int complaintId, String secretaryEmail, String reply);
 
     List<Complaints> getAllComplaints();
@@ -71,6 +74,7 @@ public interface SecretoryServices {
 
 
     void cancelBooking(int bookingId, int secretaryId) throws Exception;
+
 
 
 

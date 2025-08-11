@@ -1,12 +1,13 @@
 package com.homepulse.daos.users;
 
+import org.springframework.stereotype.Repository;
+
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
 
 import com.homepulse.entities.userEmpSecretory.Complaints;
 import com.homepulse.entities.userEmpSecretory.Users;
@@ -28,4 +29,3 @@ public interface ComplaintsDao extends JpaRepository<Complaints, Integer>{
     List<Complaints> findByStatus(String status);
 
 }
-

@@ -16,7 +16,12 @@ import java.util.List;
 public interface SecretoryDao extends JpaRepository<Users, Integer>{
 
     List<Users> findByRole(String role);
-    List<Users> findByApprovalFalse ();
+
+//    @Query("SELECT u FROM Users u JOIN FETCH u.societyId s JOIN FETCH s.location WHERE u.approval = false")
+    @Query("SELECT u FROM Users u LEFT JOIN FETCH u.societyId s LEFT JOIN FETCH s.location WHERE u.approval = false")
+
+    List<Users> findByApprovalFalse();
+
     List<Users> findByApprovalTrue();
     List<Users> findByWing(String wing);
 

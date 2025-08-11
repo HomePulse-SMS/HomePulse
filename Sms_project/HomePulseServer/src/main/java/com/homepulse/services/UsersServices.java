@@ -15,11 +15,14 @@ public interface UsersServices {
 
     void markIsVerifiedTrue(int id);
     
+    
     Complaints raiseComplaint(int userId, String description);
-
-
+    
     AmenityBooking bookAmenity(Integer amenityId, Integer userId, LocalDateTime start, LocalDateTime end);
 
 
     AmenityBooking cancelBooking(Integer bookingId);
+    
+    
+
 }

@@ -11,11 +11,8 @@ import com.homepulse.services.SecretoryServices;
 import com.homepulse.services.UsersServices;
 import com.homepulse.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,12 +24,13 @@ public class SecretoryRestController {
 
     @Autowired
     private SecretoryServices secretoryServices;
-  
-   @Autowired
-    private UsersServices usersServices;
     
+    
+    @Autowired
+     private UsersServices usersServices;
+     
 
-  
+
     @PutMapping("/updateProfile/{id}")
         public ResponseUtil<String> updateProfile(@PathVariable int id, @RequestBody UpdateSecretoryProfileDTO updateSecretoryProfileDTO) {
         String fname = updateSecretoryProfileDTO.getFname();
@@ -51,6 +49,12 @@ public class SecretoryRestController {
         List<Users> list = secretoryServices.findAll();
         return ResponseUtil.apiSuccess(list);
     }
+    
+    // Get only users with role = USER
+    @GetMapping("/users")
+    public List<Users> getNormalUsers() {
+        return secretoryServices.getAllNormalUsers();
+    }
 
     @GetMapping("/findByRole/{role}")
     public ResponseUtil<?> findByRole(@PathVariable("role") String role) {
@@ -61,6 +65,7 @@ public class SecretoryRestController {
     @GetMapping("/notApproved")
     public ResponseUtil<?> findByApprovalFalse() {
         List<Users> list = secretoryServices.findByApprovalFalse();
+//        System.out.println(list);
         return ResponseUtil.apiSuccess(list);
     }
 
@@ -160,8 +165,8 @@ public class SecretoryRestController {
         secretoryServices.updateNotice(id, updatedNotice);
         return ResponseUtil.apiSuccess("Notice updated successfully");
     }
-      
-  // Reply to a complaint (SECRETARY)
+    
+ // Reply to a complaint (SECRETARY)
 
     @PostMapping("/reply")
     public ResponseEntity<?> replyToComplaint(@RequestBody Map<String, String> body) {
@@ -198,7 +203,7 @@ public class SecretoryRestController {
     
     @PostMapping("/addAmenity")
     public Amenity createAmenity(@RequestBody Amenity amenity, Authentication authentication) {
-        Integer createdById = Integer.parseInt(authentication.getName()); // adapt this based on your security setup
+        Integer createdById = Integer.parseInt(authentication.getName()); 
         return secretoryServices.createAmenity(amenity, createdById);
     }
 
@@ -249,3 +254,12 @@ public class SecretoryRestController {
   
   
 }
+
+
+    
+
+    
+    
+
+
+
